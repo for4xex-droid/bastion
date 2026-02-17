@@ -29,10 +29,10 @@ fn main() -> Result<()> {
     match cli.command {
         // サブコマンドが指定されない場合はデフォルトでスキャン実行
         None | Some(Commands::Scan) => {
-            bastion::scanner::run_scan()?;
+            bastion_toolkit::scanner::run_scan()?;
         }
         Some(Commands::Init { language }) => {
-            bastion::init::run_init(&language)?;
+            bastion_toolkit::init::run_init(&language)?;
         }
     }
 
