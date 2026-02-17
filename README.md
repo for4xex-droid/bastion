@@ -19,6 +19,9 @@ Bastion は、開発者の「勢い（Vibe）」を妨げることなく、背�
 - **思考の速度でスキャン**: プロジェクトの脆弱性や漏洩したシークレットを瞬時に検出。
 - **物理 Jail による防御**: ファイルやネットワークへのアクセスを物理的に制限し、バグが悪用されるのを防ぎます。
 
+> [!TIP]
+> **なぜ Rust なのか？** [Bastion の思想的背景 (PHILOSOPHY.md)](PHILOSOPHY.md) を読む。
+
 ### ✨ 主な機能
 
 - **🏰 File Jail (`fs_guard`)**: 指定ディレクトリ外へのアクセスを物理的に遮断。
@@ -44,6 +47,9 @@ Bastion builds physical guardrails behind the scenes, ensuring your "Vibe" stays
 - **Rust-Powered Reliability**: Deploy industrial-grade security logic with a single command.
 - **Scan at the Speed of Thought**: Instantly detect vulnerabilities and leaked secrets.
 - **Physical Jail Defense**: Physically restrict file and network access to prevent exploits.
+
+> [!TIP]
+> **Why Rust?** Read our [Philosophy (PHILOSOPHY.md)](PHILOSOPHY.md) on Vibe Coding.
 
 ### ✨ Key Features
 
