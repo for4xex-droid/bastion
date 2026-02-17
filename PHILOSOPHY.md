@@ -1,5 +1,9 @@
 # 🎡 The Zen of Vibe Coding with Rust
 
+[日本語](#jp) | [English](#en)
+
+<a name="en"></a>
+
 > **"Build at the speed of vibes, protected by the ironclad constraints of Rust."**
 
 ## 🏯 Why Rust for Vibe Coding?
@@ -21,6 +25,8 @@ Vibe coding requires trust. If you are constantly worried about a NULL pointer o
 - **Type-Safe Sanitization**: Instead of ad-hoc string cleaning, use `text_guard` to ensure data is safe as soon as it enters the system.
 
 ---
+
+<a name="jp"></a>
 
 ## 🇯🇵 なぜバイブコーディングにおいて Rust が「至高」なのか
 

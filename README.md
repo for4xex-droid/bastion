@@ -14,6 +14,7 @@ Bastion は、直感と勢いで開発する「バイブコーディング（Vib
 バイブコーディングは楽しい。しかし、スピードを優先するあまり、パス・トラバーサル、SSRF、シークレットのハードコードといった致命的な脆弱性が紛れ込むリスクがあります。
 
 Bastion は、開発者の「勢い（Vibe）」を妨げることなく、背後で物理的なガードレールを構築します。
+**事実、Bastion 自体も 100% バイブコーディングによって開発されています。**
 
 - **Rust による超拘束・高信頼**: 産業グレードのセキュリティロジックを 1 コマンドで導入。
 - **思考の速度でスキャン**: プロジェクトの脆弱性や漏洩したシークレットを瞬時に検出。
@@ -43,6 +44,7 @@ Bastion is a Rust-based security toolkit designed for "Vibe Coding" — allowing
 Vibe coding is about flow. But in the rush of creation, it's easy to overlook critical vulnerabilities like path traversal, SSRF, or hardcoded secrets.
 
 Bastion builds physical guardrails behind the scenes, ensuring your "Vibe" stays safe without slowing you down.
+**In fact, Bastion itself is developed 100% using Vibe Coding.**
 
 - **Rust-Powered Reliability**: Deploy industrial-grade security logic with a single command.
 - **Scan at the Speed of Thought**: Instantly detect vulnerabilities and leaked secrets.
