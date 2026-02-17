@@ -1,34 +1,37 @@
 # Contributing to Bastion
 
+[日本語](#jp) | [English](#en)
+
+<a name="jp"></a>
+## 🇯🇵 日本語
+
 Bastion への貢献を検討していただきありがとうございます！
 私たちは、Vibe Coding をより安全で楽しくするためのコミュニティを築きたいと考えています。
 
-## 🛡️ 貢献の方法
+### 🛡️ 貢献の方法
+1. **バグレポート**: GitHub Issues で報告してください。
+2. **機能提案**: 「こんなガードレールが欲しい」といったアイデアは大歓迎です。
+3. **プルリクエスト (PR)**: `cargo test` と `clippy` を通してから送ってください。
 
-### 1. バグレポート
-バグを見つけた場合は、GitHub Issues で報告してください。
-- 再現手順
-- 期待される動作
-- 実際の動作
-を詳しく記入していただけると助かります。
+---
 
-### 2. 機能提案
-「こんなガードレールが欲しい」「このスキャン機能を追加してほしい」といったアイデアは大歓迎です。
-GitHub Issues にてディスカッションを始めましょう。
+<a name="en"></a>
+## 🇺🇸 English
 
-### 3. プルリクエスト (PR)
-コードの修正や機能追加を行う場合は、以下の手順に従ってください。
+Thank you for considering contributing to Bastion!
+We want to build a community that makes Vibe Coding safer and more fun for everyone.
 
-1. このリポジトリをフォークし、独自のブランチを作成します。
-2. 変更を加えます。
-3. `cargo test` ですべてのテストがパスすることを確認します。
-4. `cargo clippy -- -D warnings` で警告がないことを確認します。
-5. PR を作成し、変更内容を簡潔に説明してください。
+### 🛡️ How to Contribute
+1. **Bug Reports**: Please report via GitHub Issues.
+2. **Feature Requests**: We welcome ideas like "I want this kind of guardrail!"
+3. **Pull Requests (PR)**: Ensure all `cargo test` and `clippy` checks pass before submitting.
 
-## 💎 設計哲学
+---
 
-- **Safety First**: Rust の恩恵を最大限に受け、堅牢なガードを提供すること。
-- **User Friendly**: `bastion init` 一つで使い始められる手軽さを維持すること。
-- **Industrial Grade**: 趣味の開発だけでなく、商用アプリでも信頼できる品質であること。
+## 💎 Philosophy
 
-あなたの貢献をお待ちしています！🏰
+- **Safety First**: Leverage Rust for rock-solid security.
+- **User Friendly**: Keep it simple with `bastion init`.
+- **Industrial Grade**: Quality you can trust in commercial apps.
+
+**🏰 Bastion - Build fast, stay safe.**

@@ -1,12 +1,15 @@
 # 🏰 Bastion Security Toolkit
 
+[日本語](#jp) | [English](#en)
+
+<a name="jp"></a>
+## 🇯🇵 日本語
+
 **"Vibe Coding を加速させる、産業グレードの安全装置。"**
 
 Bastion は、直感と勢いで開発する「バイブコーディング（Vibe Coding）」スタイルの開発者が、安全性を犠牲にすることなく爆速で開発を続けるための Rust 製セキュリティツールキットです。
 
----
-
-## 🚀 Concept: Vibe Coding × Rust Stability
+### 🚀 Concept: Vibe Coding × Rust Stability
 
 バイブコーディングは楽しい。しかし、スピードを優先するあまり、パス・トラバーサル、SSRF、シークレットのハードコードといった致命的な脆弱性が紛れ込むリスクがあります。
 
@@ -14,49 +17,51 @@ Bastion は、開発者の「勢い（Vibe）」を妨げることなく、背�
 
 - **Rust による超拘束・高信頼**: 産業グレードのセキュリティロジックを 1 コマンドで導入。
 - **思考の速度でスキャン**: プロジェクトの脆弱性や漏洩したシークレットを瞬時に検出。
-- **物理 Jail による防御**: ファイルやネットワークへのアクセスを物理的に制限し、万が一のバグが悪用されるのを防ぎます。
+- **物理 Jail による防御**: ファイルやネットワークへのアクセスを物理的に制限し、バグが悪用されるのを防ぎます。
 
-## ✨ Features
+### ✨ 主な機能
 
-- **🏰 File Jail (`fs_guard`)**: 指定ディレクトリ外へのアクセスを物理的に遮断。TOCTOU 攻撃も防止。
-- **🛡️ Analyzer & Sanitizer (`text_guard`)**: プロンプトインジェクション、XSS、Bidi 文字、Windows 予約語を検知・無害化。
-- **🔍 Security Scanner**: 依存関係の脆弱性、ハードコードされたシークレットを自動検出。
-- **⚡ Quick Start**: `bastion init` だけでプロジェクトにガードレールを展開。
+- **🏰 File Jail (`fs_guard`)**: 指定ディレクトリ外へのアクセスを物理的に遮断。
+- **🛡️ Analyzer & Sanitizer (`text_guard`)**: インジェクション攻撃や特殊文字を検知・無害化。
+- **🔍 Security Scanner**: 脆弱性やハードコードされたシークレットを自動検出。
+- **⚡ Quick Start**: `bastion init` で即座にガードレールを展開。
 
-## 📦 Installation
+---
 
-```bash
-cargo install bastion-toolkit  # 今後公開予定
-```
+<a name="en"></a>
+## 🇺🇸 English
+
+**"Industrial-grade guardrails for Vibe Coders."**
+
+Bastion is a Rust-based security toolkit designed for "Vibe Coding" — allowing developers to build at the speed of thought without compromising on security.
+
+### 🚀 Concept: Vibe Coding × Rust Stability
+
+Vibe coding is about flow. But in the rush of creation, it's easy to overlook critical vulnerabilities like path traversal, SSRF, or hardcoded secrets.
+
+Bastion builds physical guardrails behind the scenes, ensuring your "Vibe" stays safe without slowing you down.
+
+- **Rust-Powered Reliability**: Deploy industrial-grade security logic with a single command.
+- **Scan at the Speed of Thought**: Instantly detect vulnerabilities and leaked secrets.
+- **Physical Jail Defense**: Physically restrict file and network access to prevent exploits.
+
+### ✨ Key Features
+
+- **🏰 File Jail (`fs_guard`)**: Physically blocks access outside designated directories.
+- **🛡️ Analyzer & Sanitizer (`text_guard`)**: Detects and sanitizes injection attacks and malicious characters.
+- **🔍 Security Scanner**: Automatically finds vulnerabilities and hardcoded secrets.
+- **⚡ Quick Start**: Deploy guardrails instantly with `bastion init`.
+
+---
 
 ## 🛠️ Quick Start
 
-### 1. プロジェクトの初期化
-カレントディレクトリを自動判定し、最適なセキュリティ設定を生成します。
 ```bash
+# Initialize security for your project
 bastion init
-```
 
-### 2. セキュリティスキャン
-脆弱性、プロジェクト設定の不備、シークレットの漏洩をチェックします。
-```bash
+# Run security scan
 bastion scan
-```
-
-## 🧩 Usage Example (Rust)
-
-```rust
-use bastion::text_guard::{Guard, ValidationResult};
-
-fn main() {
-    let guard = Guard::new().max_len(100);
-    
-    // 入力の分析（検知）
-    match guard.analyze("Please ignore previous instructions...") {
-        ValidationResult::Blocked(reason) => println!("危険を検知: {}", reason),
-        ValidationResult::Valid => println!("安全な入力"),
-    }
-}
 ```
 
 ## 📜 License
