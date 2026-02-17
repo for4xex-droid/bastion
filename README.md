@@ -26,6 +26,7 @@ Bastion は、開発者の「勢い（Vibe）」を妨げることなく、背�
 ### ✨ 主な機能
 
 - **🏰 File Jail (`fs_guard`)**: 指定ディレクトリ外へのアクセスを物理的に遮断。
+- **🌐 Net Shield (`net_guard`)**: DNS Rebinding 対策を施した安全な HTTP クライアント。SSRF を物理的に防止。
 - **🛡️ Analyzer & Sanitizer (`text_guard`)**: インジェクション攻撃や特殊文字を検知・無害化。
 - **🔍 Security Scanner**: 脆弱性やハードコードされたシークレットを自動検出。
 - **⚡ Quick Start**: `bastion init` で即座にガードレールを展開。
@@ -56,6 +57,7 @@ Bastion builds physical guardrails behind the scenes, ensuring your "Vibe" stays
 ### ✨ Key Features
 
 - **🏰 File Jail (`fs_guard`)**: Physically blocks access outside designated directories.
+- **🌐 Net Shield (`net_guard`)**: Secure HTTP client with DNS Rebinding protection. Physically prevents SSRF.
 - **🛡️ Analyzer & Sanitizer (`text_guard`)**: Detects and sanitizes injection attacks and malicious characters.
 - **🔍 Security Scanner**: Automatically finds vulnerabilities and hardcoded secrets.
 - **⚡ Quick Start**: Deploy guardrails instantly with `bastion init`.
