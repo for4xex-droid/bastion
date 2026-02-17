@@ -2,7 +2,12 @@
 name = "bastion"
 version = "0.2.1"
 edition = "2021"
-description = "🏰 Bastion Security Toolkit - Industrial Grade Protection"
+description = "🏰 Bastion Security Toolkit - Industrial Grade Protection for Vibe Coders"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/for4xex-droid/bastion"
+keywords = ["security", "sanitizer", "scanner", "vibe-coding"]
+categories = ["development-tools", "rust-patterns"]
 
 [features]
 default = ["fs", "text"]
