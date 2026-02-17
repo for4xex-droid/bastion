@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.png" width="300" alt="Bastion Logo">
+</p>
+
 # 🏰 Bastion Security Toolkit
 
 [![CI](https://github.com/for4xex-droid/bastion/actions/workflows/ci.yml/badge.badge.svg)](https://github.com/for4xex-droid/bastion/actions/workflows/ci.yml)
