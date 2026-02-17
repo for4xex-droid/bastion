@@ -17,7 +17,8 @@ enum Commands {
 
     /// セキュリティテンプレートをプロジェクトに展開する
     Init {
-        /// 対象言語 (rust / python)
+        /// 対象言語 (rust / python / auto)
+        #[arg(default_value = "auto")]
         language: String,
     },
 }

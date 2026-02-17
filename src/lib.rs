@@ -6,8 +6,9 @@
 //! 
 //! - `fs_guard`: File Jail (パス・トラバーサル / TOCTOU 防止)
 //! - `net_guard`: Net Shield (SSRF / DNS Rebinding 防止)
-//! - `text_guard`: Sanitizer (DoS / Bidi / インジェクション防止)
+//! - `text_guard`: Analyzer & Sanitizer (DoS / Bidi / インジェクション検知・防止)
 
+pub mod common;
 pub mod guardrails;
 pub mod init;
 pub mod python_check;

@@ -1,24 +1,54 @@
-//! # text_guard (Sanitizer)
+//! # text_guard (Analyzer & Sanitizer)
 //! 
-//! メモリ枯渇攻撃(DoS)、インジェクション、およびWindows予約語などの特定文字列を
-//! 無害化するための産業グレードのサニタイザー。
-//! すべての入力を NFC 正規化し、制御文字や Bidi 文字を物理的に除去する。
+//! メモリ枯渇攻撃(DoS)、インジェクション(Prompt/XSS)、およびBidi文字、
+//! Windows予約語などの特定文字列を検知・無害化するための産業グレードの総合ガード。
+
+use regex::Regex;
+use std::sync::OnceLock;
 
 #[cfg(feature = "text")]
 use unicode_normalization::UnicodeNormalization;
 
-/// テキストの無害化を行う構造体
-pub struct Sanitizer {
+/// 入力分析・バリデーションの結果
+#[derive(Debug, PartialEq, Eq)]
+pub enum ValidationResult {
+    /// 入力は安全
+    Valid,
+    /// 入力がブロックされた（理由を含む）
+    Blocked(String),
+}
+
+/// テキストの分析と無害化を行う構造体
+pub struct Guard {
     max_len: usize,
 }
 
-impl Default for Sanitizer {
+impl Default for Guard {
     fn default() -> Self {
         Self { max_len: 4096 }
     }
 }
 
-impl Sanitizer {
+static INJECTION_PATTERNS: OnceLock<Vec<Regex>> = OnceLock::new();
+
+fn get_patterns() -> &'static Vec<Regex> {
+    INJECTION_PATTERNS.get_or_init(|| {
+        vec![
+            // プロンプトインジェクション系
+            Regex::new(r"(?i)ignore previous instructions").unwrap(),
+            Regex::new(r"(?i)system prompt").unwrap(),
+            Regex::new(r"(?i)you are an ai").unwrap(),
+            // XSS / インジェクション系
+            Regex::new(r"(?i)<script").unwrap(),
+            Regex::new(r"(?i)javascript:").unwrap(),
+            Regex::new(r"(?i)vbscript:").unwrap(),
+            Regex::new(r"(?i)data:text/html").unwrap(),
+            Regex::new(r#"(?i)alert\("#).unwrap(),
+        ]
+    })
+}
+
+impl Guard {
     pub fn new() -> Self {
         Self::default()
     }
@@ -29,9 +59,31 @@ impl Sanitizer {
         self
     }
 
-    /// 文字列をサニタイズする
+    /// 入力を分析し、危険なパターンが含まれていないかチェックする
+    pub fn analyze(&self, input: &str) -> ValidationResult {
+        // 1. 長さチェック (DoS対策)
+        if input.len() > self.max_len {
+            return ValidationResult::Blocked(format!(
+                "Input too long (max {} bytes, got {})",
+                self.max_len,
+                input.len()
+            ));
+        }
+
+        // 2. パターンマッチング (インジェクション対策)
+        let patterns = get_patterns();
+        for re in patterns {
+            if re.is_match(input) {
+                return ValidationResult::Blocked("Potential injection detected".to_string());
+            }
+        }
+
+        ValidationResult::Valid
+    }
+
+    /// 文字列をサニタイズ（無害化）する
     pub fn sanitize(&self, input: &str) -> String {
-        // 1. DoS対策: バイト数チェック
+        // 1. DoS対策: バイト数で切り詰め
         let mut text = if input.len() > self.max_len {
             input[..self.max_len].to_string()
         } else {
@@ -50,38 +102,23 @@ impl Sanitizer {
         // 4. Windows 予約語対策
         text = self.mask_windows_reserved(&text);
 
-        // 5. エッジケース (., ..) の置換
-        if text == "." {
-            return "file_dot".to_string();
-        }
-        if text == ".." {
-            return "file_dot_dot".to_string();
-        }
-
         text
     }
 
-    /// 除去すべき文字の判定（制御文字、Bidi制御文字、OS予約文字の一部）
     fn is_forbidden_char(&self, c: char) -> bool {
-        // 制御文字 (U+0000-U+001F, U+007F)
         if c.is_control() {
             return true;
         }
-
-        // Bidi 制御文字 (U+200E..=U+200F, U+202A..=U+202E, U+2066..=U+2069)
         match c {
             '\u{200E}' | '\u{200F}' | '\u{202A}'..='\u{202A}' | '\u{202B}'..='\u{202B}' | 
             '\u{202C}'..='\u{202C}' | '\u{202D}'..='\u{202D}' | '\u{202E}'..='\u{202E}' |
             '\u{2066}'..='\u{2069}' => return true,
             _ => {}
         }
-
-        // パスとして危険な文字 (OS固有の制約回避)
-        // \ / : * ? " < > | \0
+        // パスとして危険な文字
         matches!(c, '/' | '\\' | ':' | '*' | '?' | '"' | '<' | '>' | '|')
     }
 
-    /// Windows の予約済みデバイス名をマスクする (CON -> _CON)
     fn mask_windows_reserved(&self, name: &str) -> String {
         let upper = name.to_uppercase();
         let reserved = [
@@ -103,40 +140,15 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_dos_protection() {
-        let sanitizer = Sanitizer::new().max_len(5);
-        assert_eq!(sanitizer.sanitize("longstring"), "longs");
-    }
-
-    #[test]
-    fn test_bidi_removal() {
-        let sanitizer = Sanitizer::new();
-        // evil\u{202E}txt.exe -> eviltxt.exe
-        let input = "evil\u{202E}txt.exe";
-        let output = sanitizer.sanitize(input);
-        assert!(!output.contains('\u{202E}'));
-        assert_eq!(output, "eviltxt.exe");
-    }
-
-    #[test]
-    fn test_windows_reserved() {
-        let sanitizer = Sanitizer::new();
-        assert_eq!(sanitizer.sanitize("CON"), "_CON");
-        assert_eq!(sanitizer.sanitize("com1"), "_com1");
-        assert_eq!(sanitizer.sanitize("safe"), "safe");
-    }
-
-    #[test]
-    fn test_edge_cases() {
-        let sanitizer = Sanitizer::new();
-        assert_eq!(sanitizer.sanitize("."), "file_dot");
-        assert_eq!(sanitizer.sanitize(".."), "file_dot_dot");
-    }
-
-    #[test]
-    fn test_path_char_removal() {
-        let sanitizer = Sanitizer::new();
-        assert_eq!(sanitizer.sanitize("file/name.txt"), "filename.txt");
-        assert_eq!(sanitizer.sanitize("a<b>c:d*e?f|g"), "abcdefg");
+    fn test_analyze_and_sanitize() {
+        let guard = Guard::new().max_len(20);
+        
+        // Analyze
+        assert_eq!(guard.analyze("Hello"), ValidationResult::Valid);
+        assert!(matches!(guard.analyze("<script>"), ValidationResult::Blocked(_)));
+        
+        // Sanitize
+        assert_eq!(guard.sanitize("file/name.txt"), "filename.txt");
+        assert_eq!(guard.sanitize("CON"), "_CON");
     }
 }

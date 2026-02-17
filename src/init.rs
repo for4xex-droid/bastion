@@ -1,12 +1,12 @@
 //! # Init - テンプレート生成モジュール
 //!
-//! `bastion init rust` / `bastion init python` で、
 //! セキュリティ関連のテンプレートファイルをプロジェクトに展開する。
 
 use anyhow::{bail, Result};
 use colored::*;
 use std::fs;
 use std::path::Path;
+use crate::common::{self, ProjectType};
 
 /// guardrails テンプレート（バイナリに埋め込み）
 const GUARDRAILS_TEMPLATE: &str = include_str!("../templates/guardrails_template.rs");
@@ -19,8 +19,16 @@ pub fn run_init(language: &str) -> Result<()> {
     match language {
         "rust" => init_rust(),
         "python" => init_python(),
+        "auto" => {
+            println!("{}", "Detecting project type...".cyan());
+            match common::detect_project_type() {
+                ProjectType::Rust => init_rust(),
+                ProjectType::Python => init_python(),
+                ProjectType::Unknown => bail!("Could not auto-detect project type. Please specify 'rust' or 'python'."),
+            }
+        }
         _ => bail!(
-            "Unknown language: '{}'. Supported: rust, python",
+            "Unknown language: '{}'. Supported: rust, python, auto",
             language
         ),
     }
@@ -38,25 +46,16 @@ fn init_rust() -> Result<()> {
         return Ok(());
     }
 
-    // src/ ディレクトリが存在しない場合は作成
     if !Path::new("src").exists() {
         fs::create_dir_all("src")?;
     }
 
     fs::write(target_path, GUARDRAILS_TEMPLATE)?;
 
-    println!(
-        "{} Generated '{}'",
-        "✓".green().bold(),
-        target_path
-    );
-    println!();
-    println!("  {} Add to your Cargo.toml:", "Next steps:".cyan().bold());
-    println!("    regex = \"1.10\"");
-    println!();
-    println!("  Add to your main.rs:");
-    println!("    mod guardrails;");
-    println!("    use guardrails::validate_input;");
+    println!("{} Generated '{}'", "✓".green().bold(), target_path);
+    println!("");
+    println!("  {} Add 'regex = \"1.10\"' to your Cargo.toml", "Next steps:".cyan().bold());
+    println!("  Then use it in your code: 'mod guardrails; use guardrails::validate_input;'");
 
     Ok(())
 }
@@ -75,18 +74,10 @@ fn init_python() -> Result<()> {
 
     fs::write(target_path, SECURE_REQUIREMENTS_TEMPLATE)?;
 
-    println!(
-        "{} Generated '{}'",
-        "✓".green().bold(),
-        target_path
-    );
-    println!();
-    println!(
-        "  {} Append contents to your requirements.txt:",
-        "Next steps:".cyan().bold()
-    );
-    println!("    cat secure_requirements.txt >> requirements.txt");
-    println!("    pip install -r requirements.txt");
+    println!("{} Generated '{}'", "✓".green().bold(), target_path);
+    println!("");
+    println!("  {} Append to requirements.txt:", "Next steps:".cyan().bold());
+    println!("  'cat secure_requirements.txt >> requirements.txt && pip install -r requirements.txt'");
 
     Ok(())
 }
