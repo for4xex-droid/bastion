@@ -1,5 +1,9 @@
 # 🏰 Bastion Security Toolkit
 
+[![CI](https://github.com/for4xex-droid/bastion/actions/workflows/ci.yml/badge.badge.svg)](https://github.com/for4xex-droid/bastion/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust: 1.70+](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
+
 [日本語](#jp) | [English](#en)
 
 <a name="jp"></a>

@@ -1,0 +1,35 @@
+name: Bug Report
+description: Bastion のバグを報告して改善に協力してください。
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグの報告ありがとうございます！開発のバイブスを止めないために、詳しい情報の提供をお願いします。
+  - type: textarea
+    id: description
+    attributes:
+      label: バグの内容
+      description: 何が起きたのか、簡潔に説明してください。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 再現手順
+      description: どのように操作するとバグが発生しますか？
+      placeholder: |
+        1. `bastion init` を実行する
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待される動作
+      description: 本来、どのようになるべきでしたか？
+  - type: textarea
+    id: context
+    attributes:
+      label: 実行環境
+      description: OS, Rust version, Bastion version など
