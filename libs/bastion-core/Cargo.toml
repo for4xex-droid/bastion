@@ -1,0 +1,34 @@
+[package]
+name = "bastion-core"
+version.workspace = true
+authors.workspace = true
+license.workspace = true
+edition.workspace = true
+description = "Core security guards for Bastion 1.0 (Jail, Shield, Guard)"
+
+[features]
+default = ["fs", "text", "net"]
+fs = ["dep:libc"]
+text = ["dep:unicode-normalization"]
+net = ["dep:trust-dns-resolver", "dep:reqwest", "dep:tokio"]
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+regex.workspace = true
+colored.workspace = true
+walkdir.workspace = true
+url.workspace = true
+tracing.workspace = true
+
+# Optional dependencies for features
+unicode-normalization = { workspace = true, optional = true }
+trust-dns-resolver = { workspace = true, optional = true }
+reqwest = { workspace = true, optional = true, features = ["json"] }
+tokio = { workspace = true, optional = true, features = ["full"] }
+libc = { workspace = true, optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["full"] }
