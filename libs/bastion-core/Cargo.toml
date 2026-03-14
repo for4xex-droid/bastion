@@ -2,7 +2,7 @@
 name = "bastion-core"
 version = "1.0.0"
 authors = ["motivationstudio,LLC"]
-license = "AGPL-3.0"
+license = "MIT OR Apache-2.0"
 edition = "2021"
 description = "Core security guards for Bastion 1.0 (Jail, Shield, Guard)"
 

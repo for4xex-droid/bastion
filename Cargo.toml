@@ -9,7 +9,7 @@ members = [
 version = "1.0.0"
 edition = "2021"
 authors = ["motivationstudio,LLC"]
-license = "AGPL-3.0"
+license = "MIT OR Apache-2.0"
 repository = "https://github.com/motivationstudio-llc/bastion"
 description = "Industrial-grade security engine for AI and general applications"
 
